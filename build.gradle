@@ -14,20 +14,23 @@ apply plugin: 'maven-publish'
 
 
 version = "1.1"
-group = "net.montoyo.wd" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = "net.montoyo.wd"
 archivesBaseName = "webdisplays"
+def creator, mc_version, forge_version, snapshot_date
+creator = "futurlabcalderara"
+mc_version = "1.16.5"
+forge_version = "36.2.34"
+snapshot_date = "20210309"
+
 
 //java.toolchain.languageVersion = JavaLanguageVersion.of(8)
-
-
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {
     sourceCompatibility = targetCompatibility = '1.8'
 }
 
 minecraft {
-    mappings channel: 'snapshot', version: '20210309-1.16.5'
-
+    mappings channel: 'snapshot', version: "${snapshot_date}-${mc_version}"
     runs {
         client {
             workingDirectory project.file('run')
@@ -101,7 +104,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.2.34'
+    minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 }
 
 jar {
@@ -111,12 +114,12 @@ jar {
 
     manifest {
         attributes([
-                "Specification-Title": "examplemod",
-                "Specification-Vendor": "examplemodsareus",
+                "Specification-Title": "${archivesBaseName}",
+                "Specification-Vendor": "${creator}",
                 "Specification-Version": "1", // We are version 1 of ourselves
                 "Implementation-Title": project.name,
                 "Implementation-Version": "${version}",
-                "Implementation-Vendor" :"examplemodsareus",
+                "Implementation-Vendor" :"${creator}",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
